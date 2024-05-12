@@ -1,7 +1,8 @@
 class Node:
-    def __init__(self, data=None, next=None):
+    def __init__(self, data=None, next=None, prev = None):
         self.data = data
         self.next = next
+        self.prev = prev
 
 class LinkedList:
     def __init__(self):
@@ -108,8 +109,6 @@ class LinkedList:
             itr = itr.next
             count += 1
         self.remove_at(count)
-
-
 
 if __name__ == '__main__':
     ll = LinkedList()
