@@ -6,14 +6,17 @@ Return the number of good nodes in the binary tree.
 """
 
 # Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, val=0, left=None, right=None, maxi = None):
-#         self.val = val
-#         self.left = left
-#         self.right = right
-#         self.maxi = maxi
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None, maxi = None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+from collections import deque
+
 class Solution:
 
+    # Recursive Solution
     def good(self, root, count, maxi):
         if root.left is None and root.right is None :
             return count
@@ -34,4 +37,38 @@ class Solution:
         count = self.good(root, 0, root.val)
         return count + 1
 
-        
+    #Iterative Solution using stack and DFS
+
+    def goodNodes(self, root: TreeNode) -> int:
+        stack = []
+        stack.append((root, root.val))
+        goodnodes = 0
+
+        while stack:
+            root, maxval = stack.pop()
+            if root.val >= maxval :
+                maxval = root.val
+                goodnodes += 1
+            if root.right:
+                stack.append((root.right, maxval))
+            if root.left:
+                stack.append((root.left, maxval))
+        return goodnodes
+
+    #Iterative Solution using Queue and BFS
+
+    def goodNodes(self, root: TreeNode) -> int:
+        queue = deque()
+        queue.append((root, root.val))
+        count = 0
+
+        while queue:
+            node, maxval = queue.popleft()
+            if node.val >= maxval :
+                maxval = node.val
+                count += 1
+            if node.left:
+                queue.append((node.left, maxval))
+            if node.right:
+                queue.append((node.right, maxval))
+        return count
